@@ -1,106 +1,55 @@
-# Fumika🐈
-![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D20-brightgreen) 
-![pnpm >= 11](https://img.shields.io/badge/pnpm-%3E%3D9-blue) 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiyanarmanda%2Ffumika.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiyanarmanda%2Ffumika?ref=badge_shield&issueType=license)
+# Leo 的个人网站
 
-A clean, minimalist, and modern, static blog template built with [Astro](https://astro.build). **Fumika** is heavily modified from [Fuwari](https://github.com/saicaca/fuwari).
+基于 [Astro](https://astro.build) + [Fumika](https://github.com/iyanarmanda/fumika) 主题 + [Starlight](https://starlight.astro.build) 知识库的个人网站，托管在 GitHub Pages。
 
-[**Live Demo**](https://fumika-demo.netlify.app)
+**线上地址**：<https://faicma.github.io/leo/>
 
-**Preview**:
+## 网站结构
 
-Light Mode:
-![Preview Image Light Mode](https://raw.githubusercontent.com/iyanarmanda/resource/main/fumika/home-light.png)
+| 板块 | 路径 | 内容来源 |
+| --- | --- | --- |
+| 首页（博客列表） | `/` | `src/content/posts/` |
+| 归档 | `/archive/` | 自动生成 |
+| 项目展示 | `/projects/` | `src/content/projects/` |
+| 知识库（Starlight） | `/docs/` | `src/content/docs/docs/` |
+| 关于 | `/about/` | `src/content/spec/about.md` |
+| 友链 | `/friends/` | `src/content/data/friends.json` |
 
-Dark Mode:
-![Preview Image Dark Mode](https://raw.githubusercontent.com/iyanarmanda/resource/main/fumika/home-dark.png)
+站点配置集中在 `src/config.ts`（站名、导航、头像、链接、部署地址等）。
 
-## Tech Stacks
+## 常用命令
 
-- [Astrojs v7](https://astro.build)
-- [Svelte v5](https://svelte.dev/)
-- [Tailwind CSS v4](https://tailwindcss.com) 
-- [SCSS](https://sass-lang.com/)
-
-## Features
-
-- [x] Smooth animations and page transitions
-- [x] Light / dark mode
-- [x] Responsive design
-- [x] Customizable theme, banner, and other components
-- [x] Search functionality with [Pagefind](https://pagefind.app/)
-- [x] [Markdown extended features](https://github.com/iyanarmanda/fumika?tab=readme-ov-file#-markdown-extended-syntax)
-- [x] Table of contents
-- [x] RSS feed
-- [x] Meta and Open Graph Tag
-- [x] i18n translation
-- [x] Comment feature with [Giscus](https://giscus.app/)
-- [x] Google Analytics using [Partytown](https://partytown.qwik.dev/)
-
-*See upcoming features in [ROADMAP](https://github.com/iyanarmanda/fumika/blob/main/ROADMAP.md)
-
-### Markdown Extended Features
-
-In addition to Astro's default support for GitHub Flavored Markdown ([Docs](https://github.github.com/gfm/)), several extra Markdown features are included:
-
-- Admonitions ([Preview and Usage](https://fumika-demo.netlify.app/posts/markdown-extended/#admonitions))
-- GitHub repository cards ([Preview and Usage](https://fumika-demo.netlify.app/posts/markdown-extended/#github-repository-cards))
-- Enhanced code blocks with Expressive Code ([Preview](https://fumika-demo.netlify.app/posts/expressive-code/) / [Docs](https://expressive-code.com/)) 
-- Mermaid Diagram ([Preview](https://fumika-demo.netlify.app/posts/mermaid/) / [Docs](https://mermaid.js.org/))
-- Typography features ([Preview and Usage](https://fumika-demo.netlify.app/posts/markdown-extend/#typography-features))
-
-## Getting Started
-
-1. Create your blog repository:
-    - [Generate a new repository](https://github.com/iyanarmanda/fumika/generate) from this template or fork this repository.
-    - Or run one of the following commands (*soon*):
-       ```sh
-       npm create fumika@latest
-       yarn create fumika
-       pnpm create fumika@latest
-       bun create fumika@latest
-       deno run -A npm:create-fumika@latest
-       ```
-2. To edit your blog locally, clone your repository, run `pnpm install` to install dependencies.
-    - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Netlify, GitHub Pages, etc. following [the guides](https://docs.astro.build/en/guides/deploy/). You need to edit the site configuration in `astro.config.mjs` before deployment.
-
-## Frontmatter of Posts
-
-```yaml
----
-title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
-ogImage: /media/images/cover.webp   # by default is empty and use `image` frontmatter if it from public directories or url.
-draft: false
----
+```bash
+pnpm install        # 安装依赖（本机需 Node >= 22.23.4）
+pnpm dev            # 本地开发 http://localhost:4321
+pnpm build          # 构建到 dist/（含 Pagefind 搜索索引）
+pnpm preview        # 预览构建结果
+pnpm new-post       # 新建一篇文章：node scripts/new-post.js
 ```
 
-## Commands
+> 本机 Node 版本不够时，可用仓库外的隔离版本：
+> `export PATH="$HOME/.workbuddy/binaries/node/versions/22.23.4/bin:$PATH"`
 
-All commands are run from the root of the project, from a terminal:
+## 发布流程
 
-| Command                    | Action                                                                   |
-|:---------------------------|:-------------------------------------------------------------------------|
-| `pnpm install`             | Installs dependencies                                                    |
-| `pnpm dev`                 | Starts local dev server at `localhost:4321`                              |
-| `pnpm build`               | Build your production site to `./dist/`                                  |
-| `pnpm preview`             | Preview your build locally, before deploying                             |
-| `pnpm check`               | Run checks for errors in your code                                       |
-| `pnpm format`              | Format your code using **Biome**                                         |
-| `pnpm lint`                | Lint your code using **Biome**                                           |
-| `pnpm new-post <filename>` | Create a new post                                                        |
-| `pnpm astro ...`           | Run CLI commands like `astro add`, `astro check`                         |
-| `pnpm astro --help`        | Get help using the Astro CLI                                             |
-| `pnpm test`                | Running unit testing using **Vitest**                                    |
+1. 在 GitHub 上创建仓库 `faicma/leo`（公开仓库）
+2. 推送代码：
 
-## License
+   ```bash
+   git remote add origin https://github.com/faicma/leo.git
+   git push -u origin main
+   ```
 
-This project is licensed under the MIT License.
+3. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**
+4. 之后每次 push 到 `main`，`.github/workflows/deploy.yml` 会自动构建并部署
 
+## 待补充内容清单（placeholder）
+
+- [ ] **个人信息**：自我介绍、头像（替换 `src/assets/images/demo-avatar.jpg`）、横幅图（`demo-banner.jpg`）
+- [ ] **博客文章**：真实的学习笔记 / 随笔（现在是 3 篇模板文）
+- [ ] **项目**：真实项目介绍，含截图、仓库链接、在线地址（`src/content/projects/`）
+- [ ] **知识库**：学习资料、指南（`src/content/docs/docs/`，边栏配置在 `astro.config.mjs` 的 `sidebar`）
+- [ ] **关于页**：自我介绍、联系方式、社交账号（`src/content/spec/about.md`）
+- [ ] **MW AI Club**：社团介绍、招新方式、活动信息（散布在 about / 知识库社团手册 / 文章中）
+- [ ] **评论区**（可选）：在 [giscus.app](https://giscus.app/) 用 `faicma/leo` 仓库生成配置，填回 `src/config.ts` 的 `commentConfig`
+- [ ] **域名**（可选）：如需自定义域名，在仓库设置里配置并把 `src/config.ts` 的 `siteUrl`/`baseUrl` 改掉
