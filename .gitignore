@@ -32,3 +32,6 @@ yarn.lock
 
 # test
 coverage
+
+# WorkBuddy workspace data (local only)
+.workbuddy/
