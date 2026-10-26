@@ -1,0 +1,97 @@
+---
+import { getCollection } from "astro:content";
+import ImageWrapper from "@components/misc/ImageWrapper.astro";
+import { DEFAULT_LANG, SUPPORTED_LANG } from "@constants/constants";
+import type { GetStaticPaths } from "astro";
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+
+const { lang = DEFAULT_LANG } = Astro.props;
+
+export const getStaticPaths = (async () => {
+	return SUPPORTED_LANG.map((lang) => ({
+		params: {
+			lang: lang === DEFAULT_LANG ? undefined : lang,
+		},
+		props: { lang },
+	}));
+}) satisfies GetStaticPaths;
+
+const projects = (await getCollection("projects")).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+
+const statusColor: Record<string, string> = {
+	进行中: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+	已完成: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
+	构思中: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+};
+---
+
+<MainGridLayout title="项目" description="Leo 的项目展示" lang={lang}>
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32 mb-4">
+		<div class="card-base z-10 px-9 py-6 relative w-full">
+			<div class="my-2">
+				<h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">Projects · 项目展示</h1>
+				<p class="text-50 mt-2">
+					我做过的东西，以及和 MW AI Club 成员一起做的项目。（placeholder 内容，等你来补充真实项目）
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 my-6">
+				{projects.map((project) => (
+					<div class="rounded-xl overflow-hidden border border-(--secondary-button-bg) bg-(--secondary-button-bg) hover:opacity-95 transition">
+						{project.data.image && (
+							<div class="h-40 w-full overflow-hidden bg-zinc-200 dark:bg-zinc-900">
+								<ImageWrapper src={project.data.image} alt={project.data.title} class="w-full h-full object-cover" />
+							</div>
+						)}
+						<div class="p-5">
+							<div class="flex items-center gap-2 mb-2">
+								<h2 class="font-bold text-lg text-neutral-900 dark:text-neutral-100">{project.data.title}</h2>
+								<span class={`text-xs font-medium px-2 py-0.5 rounded-full ${statusColor[project.data.status] ?? ""}`}>
+									{project.data.status}
+								</span>
+							</div>
+							<p class="text-50 text-sm mb-3">{project.data.description}</p>
+
+							{project.data.members.length > 0 && (
+								<div class="text-50 text-xs mb-3">
+									<Icon name="fa6-solid:user-group" class="inline-block mr-1 text-(--primary)" />
+									{project.data.members.join(" · ")}
+								</div>
+							)}
+
+							{project.data.tags.length > 0 && (
+								<div class="flex flex-wrap gap-2 mb-3">
+									{project.data.tags.map((tag) => (
+										<span class="text-xs px-2 py-0.5 rounded-md bg-(--secondary-button-bg) text-50">{tag}</span>
+									))}
+								</div>
+							)}
+
+							<div class="flex gap-3">
+								{project.data.demo && (
+									<a href={project.data.demo} target="_blank" rel="noopener noreferrer"
+										class="btn-regular rounded-lg px-4 py-1.5 text-sm"
+									>
+										<Icon name="fa6-solid:arrow-up-right-from-square" class="inline-block mr-1.5" />
+										在线体验
+									</a>
+								)}
+								{project.data.repo && (
+									<a href={project.data.repo} target="_blank" rel="noopener noreferrer"
+										class="btn-regular rounded-lg px-4 py-1.5 text-sm"
+									>
+										<Icon name="fa6-brands:github" class="inline-block mr-1.5" />
+										源代码
+									</a>
+								)}
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</div>
+</MainGridLayout>
